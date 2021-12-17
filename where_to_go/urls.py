@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from terrain_map import views
+from places import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.show_start_page),
+    path('', views.index, name='index'),
 ]
