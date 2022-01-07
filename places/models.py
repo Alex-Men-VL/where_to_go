@@ -5,8 +5,8 @@ class Place(models.Model):
     title = models.CharField('Заголовок', max_length=100)
     description_short = models.TextField('Короткое описание')
     description_long = models.TextField('Длинное описание')
-    coordinate_lng = models.FloatField('Долгота')
-    coordinate_lat = models.FloatField('Широта')
+    lng = models.FloatField('Долгота')
+    lat = models.FloatField('Широта')
 
     def __str__(self):
         return self.title
@@ -19,7 +19,7 @@ class Place(models.Model):
 class Image(models.Model):
     number = models.IntegerField('Порядковый номер', default=1,
                                  null=True, blank=True)
-    image = models.ImageField('Картинка', upload_to='places_img')
+    img = models.ImageField('Картинка', upload_to='places_img')
     place = models.ForeignKey('Place', on_delete=models.CASCADE,
                               related_name='images',
                               verbose_name='Место')

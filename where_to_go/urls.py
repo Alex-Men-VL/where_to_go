@@ -23,6 +23,7 @@ from places import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('places/<int:pk>/', views.place_details, name='place-detail')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
