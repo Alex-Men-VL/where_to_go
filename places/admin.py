@@ -1,12 +1,13 @@
 from django.contrib import admin, messages
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 from .models import Place, Image
 
 
-# @admin.register(Place, Image)
 class ImageAdmin(admin.ModelAdmin):
-    fields = ('img', 'place')
-    actions = ['change_the_order']
+    fields = ('img', 'place',)
+    actions = ('change_the_order',)
 
     def save_model(self, request, obj, form, change):
         obj.number = Image.objects.filter(
@@ -34,7 +35,16 @@ class ImageAdmin(admin.ModelAdmin):
 
 class ImageInline(admin.TabularInline):
     model = Image
-    fields = ['img', 'number']
+    fields = ('img', 'image_tag', 'number',)
+    readonly_fields = ('image_tag',)
+
+    def image_tag(self, obj):
+        return format_html(
+            '<img src="{}" width="auto" height="150" >',
+            obj.img.url
+        )
+
+    image_tag.short_description = 'Превью'
 
 
 class PlaceAdmin(admin.ModelAdmin):
