@@ -3,8 +3,9 @@ from django.contrib import admin, messages
 from .models import Place, Image
 
 
+# @admin.register(Place, Image)
 class ImageAdmin(admin.ModelAdmin):
-    fields = ('image', 'place')
+    fields = ('img', 'place')
     actions = ['change_the_order']
 
     def save_model(self, request, obj, form, change):
@@ -31,5 +32,14 @@ class ImageAdmin(admin.ModelAdmin):
                               messages.SUCCESS)
 
 
-admin.site.register(Place)
+class ImageInline(admin.TabularInline):
+    model = Image
+    fields = ['img', 'number']
+
+
+class PlaceAdmin(admin.ModelAdmin):
+    inlines = [ImageInline]
+
+
+admin.site.register(Place, PlaceAdmin)
 admin.site.register(Image, ImageAdmin)

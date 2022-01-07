@@ -28,6 +28,6 @@ class Image(models.Model):
         return f'{self.number} {self.place.title}'
 
     class Meta:
-        ordering = ['place__title', '-number']
+        ordering = ['place__title', 'number']
         verbose_name = 'картинка'
         verbose_name_plural = 'картинки'
