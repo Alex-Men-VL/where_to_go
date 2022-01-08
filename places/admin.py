@@ -1,6 +1,6 @@
+from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin, messages
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 
 from .models import Place, Image
 
@@ -33,10 +33,11 @@ class ImageAdmin(admin.ModelAdmin):
                               messages.SUCCESS)
 
 
-class ImageInline(admin.TabularInline):
+class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Image
     fields = ('img', 'image_tag', 'number',)
     readonly_fields = ('image_tag',)
+    extra = 1
 
     def image_tag(self, obj):
         return format_html(

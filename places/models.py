@@ -17,8 +17,7 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    number = models.IntegerField('Порядковый номер', default=1,
-                                 null=True, blank=True)
+    number = models.IntegerField('Порядковый номер', default=0)
     img = models.ImageField('Картинка', upload_to='places_img')
     place = models.ForeignKey('Place', on_delete=models.CASCADE,
                               related_name='images',
@@ -28,6 +27,6 @@ class Image(models.Model):
         return f'{self.number} {self.place.title}'
 
     class Meta:
-        ordering = ['place__title', 'number']
+        ordering = ['number']
         verbose_name = 'картинка'
         verbose_name_plural = 'картинки'
