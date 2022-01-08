@@ -3,9 +3,9 @@
 Сайт с картой с интересными местами в Москве. На карте отображается маркеры, кликнув
 по которым, можно получить полное описание места с фотографиями и полезными ссылками.
 
-![&#x41A;&#x443;&#x434;&#x430; &#x43F;&#x43E;&#x439;&#x442;&#x438;](../../../../../../Downloads/where-to-go-frontend-master/.gitbook/assets/site.png)
+![Демка сайта](.gitbook/assets/ste.png)
 
-[Демка сайта](https://devmanorg.github.io/where-to-go-frontend/).
+[Демка сайта](http://almen.pythonanywhere.com/).
 
 ## Как запустить
 
