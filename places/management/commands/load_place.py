@@ -1,6 +1,6 @@
-import os
 import logging
-from urllib.parse import urlparse, unquote
+import os
+from urllib.parse import unquote, urlparse
 
 import requests
 from django.core.files.base import ContentFile
