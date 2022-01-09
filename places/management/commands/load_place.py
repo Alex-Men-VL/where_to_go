@@ -34,7 +34,7 @@ class Command(BaseCommand):
                     saved_imgs_number = 0
                     for number, img_url in enumerate(imgs):
                         try:
-                            save_place_img(number, url, place)
+                            save_place_img(number, img_url, place)
                         except RequestException as err:
                             logging.error(
                                 f"{err}.\nImage not added"
