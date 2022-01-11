@@ -9,20 +9,20 @@
 
 ## Как запустить
 
-- Скачайте код
+Скачайте код
 ```bash
 $ git clone https://github.com/Alex-Men-VL/where_to_go.git
 $ cd where_to_go
 ```
-- Установите зависимости:
+Установите зависимости:
 ```bash
 $ pip install -r requirements.txt
 ```
-- Накатите миграцию:
+Накатите миграцию:
 ```bash
 $ python3 manage.py migrate
 ```
-- Запусти сервер:
+Запустите сервер:
 ```bash
 $ python3 manage.py runserver
 ```
