@@ -23,34 +23,38 @@ class Command(BaseCommand):
                 place_description = save_place(url)
             except InvalidURL as err:
                 logging.error(f"{err}.\nError in the URL")
+                continue
             except RequestException as err:
                 logging.error(f"{err}.\nCan't get data from URL")
-            except (IntegrityError, DatabaseError) as err:
+                continue
+            except (IntegrityError, DatabaseError, KeyError) as err:
                 logging.error(f"{err}.\nIncorrect JSON format from URL")
-            else:
-                place = place_description.get('place')
-                if place_description.get('is_new'):
-                    imgs = place_description.get('imgs')
-                    saved_imgs_number = 0
-                    for number, img_url in enumerate(imgs):
-                        try:
-                            save_place_img(number, img_url, place)
-                        except RequestException as err:
-                            logging.error(
-                                f"{err}.\nImage not added"
-                            )
-                        else:
-                            saved_imgs_number += 1
-                    logging.info(
-                        f'A place with the title "{place.title}" has been added'
-                        f'\nNumber of saved images: {saved_imgs_number} out of '
-                        f'{number+1}'
+                continue
+
+            place = place_description['place']
+            if not place_description['is_new']:
+                logging.info(
+                    f'A place with the title "{place.title}" is already '
+                    'in the database'
+                )
+                continue
+
+            imgs = place_description['imgs']
+            saved_imgs_number = 0
+            for number, img_url in enumerate(imgs):
+                try:
+                    save_place_img(number, img_url, place)
+                except RequestException as err:
+                    logging.error(
+                        f"{err}.\nImage not added"
                     )
                 else:
-                    logging.info(
-                        f'A place with the title "{place.title}" is already '
-                        'in the database'
-                    )
+                    saved_imgs_number += 1
+            logging.info(
+                f'A place with the title "{place.title}" has been added'
+                f'\nNumber of saved images: {saved_imgs_number} out of '
+                f'{number+1}'
+            )
 
 
 def get_response(url):
@@ -62,14 +66,14 @@ def get_response(url):
 def save_place(url):
     decoded_place = get_response(url).json()
     formatted_place = {
-        'title': decoded_place.get('title'),
-        'description_short': decoded_place.get('description_short'),
-        'description_long': decoded_place.get('description_long'),
-        'lng': decoded_place.get('coordinates').get('lng'),
-        'lat': decoded_place.get('coordinates').get('lat')
+        'title': decoded_place['title'],
+        'description_short': decoded_place['description_short'],
+        'description_long': decoded_place['description_long'],
+        'lng': decoded_place['coordinates']['lng'],
+        'lat': decoded_place['coordinates']['lat']
     }
     place, is_new = Place.objects.get_or_create(**formatted_place)
-    imgs = decoded_place.get('imgs')
+    imgs = decoded_place.get('imgs') or []
     place_description = {
         'place': place,
         'is_new': is_new,
