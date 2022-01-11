@@ -40,10 +40,10 @@ class Command(BaseCommand):
                 continue
 
             imgs = place_description['imgs']
-            saved_imgs_number = 0
-            for number, img_url in enumerate(imgs):
+            img_number, saved_imgs_number = 0, 0
+            for img_number, img_url in enumerate(imgs, start=1):
                 try:
-                    save_place_img(number, img_url, place)
+                    save_place_img(img_number, img_url, place)
                 except RequestException as err:
                     logging.error(
                         f"{err}.\nImage not added"
@@ -53,7 +53,7 @@ class Command(BaseCommand):
             logging.info(
                 f'A place with the title "{place.title}" has been added'
                 f'\nNumber of saved images: {saved_imgs_number} out of '
-                f'{number+1}'
+                f'{img_number}'
             )
 
 
