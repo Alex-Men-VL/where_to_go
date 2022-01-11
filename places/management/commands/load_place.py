@@ -57,14 +57,11 @@ class Command(BaseCommand):
             )
 
 
-def get_response(url):
+def save_place(url):
     response = requests.get(url)
     response.raise_for_status()
-    return response
 
-
-def save_place(url):
-    decoded_place = get_response(url).json()
+    decoded_place = response.json()
     formatted_place = {
         'title': decoded_place['title'],
         'description_short': decoded_place['description_short'],
@@ -83,7 +80,10 @@ def save_place(url):
 
 
 def save_place_img(number, url, place):
-    content = get_response(url).content
+    response = requests.get(url)
+    response.raise_for_status()
+
+    content = response.content
     filename = get_img_name(url)
     image = Image(number=number)
     image.img.save(filename, ContentFile(content), save=False)
