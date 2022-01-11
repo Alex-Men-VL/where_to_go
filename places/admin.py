@@ -7,12 +7,13 @@ from .models import Place, Image
 
 class ImageAdmin(admin.ModelAdmin):
     fields = ('img', 'place',)
+    list_filter = ('place__title',)
     actions = ('change_the_order',)
 
     def save_model(self, request, obj, form, change):
         obj.number = Image.objects.filter(
-            place__title=obj.place.title
-        ).count() + 1
+            place=obj.place
+        ).last().number + 1
         obj.save()
 
     @admin.action(description='Поменять местами')
