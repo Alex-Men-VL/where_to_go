@@ -5,6 +5,7 @@ from django.utils.html import format_html
 from .models import Place, Image
 
 
+@admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     fields = ('img', 'place',)
     list_filter = ('place__title',)
@@ -49,10 +50,7 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
     image_tag.short_description = 'Превью'
 
 
+@admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
     inlines = [ImageInline]
     search_fields = ('title',)
-
-
-admin.site.register(Place, PlaceAdmin)
-admin.site.register(Image, ImageAdmin)
