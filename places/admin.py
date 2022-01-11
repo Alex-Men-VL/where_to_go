@@ -26,10 +26,10 @@ class ImageAdmin(admin.ModelAdmin):
                               'хотите поменять местами.',
                               messages.ERROR)
         else:
-            numbers = (queryset[1].number, queryset[0].number)
-            for number, image in enumerate(queryset):
-                image.number = numbers[number]
-                image.save()
+            queryset[0].number, queryset[1].number = (queryset[1].number,
+                                                      queryset[0].number)
+            queryset[0].save()
+            queryset[1].save()
             self.message_user(request,
                               'Картинки успешно поменяны местами.',
                               messages.SUCCESS)
