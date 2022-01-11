@@ -69,7 +69,10 @@ def save_place(url):
         'lng': decoded_place['coordinates']['lng'],
         'lat': decoded_place['coordinates']['lat']
     }
-    place, is_new = Place.objects.get_or_create(**formatted_place)
+    place, is_new = Place.objects.get_or_create(
+        lng=formatted_place.pop('lng'),
+        lat=formatted_place.pop('lat'),
+        defaults=formatted_place)
     imgs = decoded_place.get('imgs') or []
     place_description = {
         'place': place,
